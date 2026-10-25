@@ -515,7 +515,7 @@
                             <hr style="margin-top: 1rem; margin-bottom: 1rem; border: 0; border-top: 2px dashed rgba(0,0,0,.1);">
                             <div style="margin-bottom: 10px">
                                 <div style="color: #b2b2b2;">Nama</div>
-                                <div>Nama Tamu</div>
+                                <div id="guestNameQr">Tamu Undangan</div>
                             </div>
                             <div style="margin-bottom: 10px">
                                 <div style="color: #b2b2b2;">Grup</div>
@@ -595,27 +595,69 @@
                 </div>
             </div>
         </div>
-        <!-- not support modal -->
-        <!-- start script -->
-        <script src="js/theme-app.js" type="528af4fbbd21955dcdc0ed0c-text/javascript"></script>
-        <script src="js/themesv2.js" type="528af4fbbd21955dcdc0ed0c-text/javascript"></script>
-        <script type="528af4fbbd21955dcdc0ed0c-text/javascript">
-            
-        var notSupport = document.getElementById('notSupport');
-        function checkBrowser() { 
-            if(navigator.userAgent.indexOf("UCBrowser") != -1 || navigator.userAgent.indexOf("MiuiBrowser") != -1 || navigator.userAgent.indexOf("OppoBrowser") != -1) {
-                showModal(notSupport);
-                if (loader) {
-                    loader.style.display = "none";
-                }
+        
+        
+<!-- Script utama undangan -->
+<script src="js/theme-app.js"></script>
+
+<!-- Membaca nama tamu dari URL -->
+<script>
+(function () {
+    const params = new URLSearchParams(window.location.search);
+    const namaTamu = (
+        params.get("to") || "Tamu Undangan"
+    ).trim();
+
+    const undangan = document.getElementById("khitanMomen");
+    const namaCover = document.getElementById("guestNameSlot");
+    const namaQR = document.getElementById("guestNameQr");
+
+    // Simpan nama tamu untuk script tema
+    if (undangan) {
+        undangan.dataset.guest = namaTamu;
+    }
+
+    // Tampilkan nama di cover undangan
+    if (namaCover) {
+        namaCover.textContent = namaTamu;
+    }
+
+    // Tampilkan nama di modal QR
+    if (namaQR) {
+        namaQR.textContent = namaTamu;
+    }
+})();
+</script>
+
+<!-- Script tema: cukup dipanggil satu kali -->
+<script src="js/themesv2.js"></script>
+
+<!-- Pemeriksaan browser -->
+<script>
+(function () {
+    const notSupport = document.getElementById("notSupport");
+
+    function checkBrowser() {
+        const browserTidakDidukung =
+            navigator.userAgent.includes("UCBrowser") ||
+            navigator.userAgent.includes("MiuiBrowser") ||
+            navigator.userAgent.includes("OppoBrowser");
+
+        if (browserTidakDidukung && notSupport &&
+            typeof showModal === "function") {
+            showModal(notSupport);
+
+            if (typeof loader !== "undefined" && loader) {
+                loader.style.display = "none";
             }
         }
-        checkBrowser()
-    
-        </script>
-        <!-- end script -->
-        <script type="528af4fbbd21955dcdc0ed0c-text/javascript"></script>
-        <script src="js/rocket-loader.min.js" data-cf-settings="528af4fbbd21955dcdc0ed0c-|49" defer></script>
-        <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2026.11.0","token":"bb94421b81454f668eb9cf5cf8e9f0cb","spa":2}' crossorigin="anonymous"></script>
-    </body>
+    }
+
+    checkBrowser();
+})();
+</script>
+<script type="528af4fbbd21955dcdc0ed0c-text/javascript"></script>
+<script src="js/rocket-loader.min.js" data-cf-settings="528af4fbbd21955dcdc0ed0c-|49" defer></script>
+<script type="module" src="js/beacon.min.js" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2026.11.0","token":"bb94421b81454f668eb9cf5cf8e9f0cb","spa":2}' crossorigin="anonymous"></script>
+</body>
 </html>
